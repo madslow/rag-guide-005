@@ -1,10 +1,12 @@
 import logging
 import os
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel, Field
+from app.guard import check_input, check_output
+from app.rag import PROMPT, answer
 
-from app.rag import answer
+
 
 logging.basicConfig(level=logging.INFO)
 app = FastAPI(title="rag-guide")
@@ -28,7 +30,11 @@ class Question(BaseModel):
 def health():
     return {"status": "ok"}
 
-
 @app.post("/ask")
 def ask_api(body: Question):
-    return answer(body.q)
+    reason = check_input(body.q)
+    if reason:
+        raise HTTPException(status_code=400, detail=reason)
+    res = answer(body.q)
+    res["answer"] = check_output(res["answer"], PROMPT)
+    return res
