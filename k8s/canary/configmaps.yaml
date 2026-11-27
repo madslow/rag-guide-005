@@ -16,6 +16,6 @@ data:
   AWS_REGION: ap-northeast-2
   LLM_MODEL: global.anthropic.claude-sonnet-5-5
   EMBED_MODEL: amazon.titan-embed-text-v2:0
-  PROMPT_VERSION: v1
+  PROMPT_VERSION: v2
   TOP_K: "4"
   HR_URL: http://hr-mock
