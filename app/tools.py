@@ -14,6 +14,7 @@ def request_leave(user_id: str, date: str, kind: str, idem_key: str = "") -> dic
         raise ValueError("잔여 연차가 부족합니다")
     return hr.create_request(user_id, d, kind, days, idem_key)   # 같은 키 → 같은 결과
 
+KST = timezone(timedelta(hours=9))
 
 
 def today_kst() -> str:
