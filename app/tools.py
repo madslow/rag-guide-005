@@ -1,5 +1,6 @@
 import os
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, timedelta, timezone
+from datetime import datetime
 from app import hr_client as hr          # http://hr-mock 호출
 
 def request_leave(user_id: str, date: str, kind: str, idem_key: str = "") -> dict:
@@ -12,6 +13,8 @@ def request_leave(user_id: str, date: str, kind: str, idem_key: str = "") -> dic
     if hr.balance(user_id)["remaining"] < days:
         raise ValueError("잔여 연차가 부족합니다")
     return hr.create_request(user_id, d, kind, days, idem_key)   # 같은 키 → 같은 결과
+
+KST = timezone(timedelta(hours=9))
 
 
 def today_kst() -> str:
